@@ -1,5 +1,6 @@
 package com.kafka.producer.Service;
 
+import com.kafka.producer.dto.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -54,6 +55,37 @@ public class KafkaService {
                 System.out.println(
                         "Unable to send message=[" +
                                 message + "] due to : " + ex.getMessage()
+                );
+            }
+        });
+    }
+
+
+
+    public void sendevent(Customer customer) {
+
+        // Send customer to Kafka topic
+        CompletableFuture<SendResult<String, Object>> future =
+                kafkaTemplate.send("Test_event", customer);
+
+        /**
+         * Callback to handle success or failure
+         * This executes asynchronously
+         */
+        future.whenComplete((result, ex) -> {
+
+            if (ex == null) {
+                // Message successfully sent
+                System.out.println(
+                        "Sent customer=[" + customer +
+                                "] with offset=[" +
+                                result.getRecordMetadata().offset() + "]"
+                );
+            } else {
+                // Error occurred while sending customer
+                System.out.println(
+                        "Unable to send customer=[" +
+                                customer + "] due to : " + ex.getMessage()
                 );
             }
         });

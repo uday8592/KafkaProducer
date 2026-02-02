@@ -27,7 +27,7 @@ public class TopicConfig {
     public NewTopic topic() {
 
         return TopicBuilder
-                .name("Test_topic")   // Kafka topic name
+                .name("Test_event")   // Kafka topic name
                 .partitions(3)        // Number of partitions
                 .replicas(1)          // Replication factor
                 .build();

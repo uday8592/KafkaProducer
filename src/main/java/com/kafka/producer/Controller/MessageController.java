@@ -1,6 +1,7 @@
 package com.kafka.producer.Controller;
 
 import com.kafka.producer.Service.KafkaService;
+import com.kafka.producer.dto.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,5 +39,11 @@ public class MessageController {
         }
         // Immediate HTTP response
         return ResponseEntity.ok("Message sent to Kafka topic");
+    }
+
+    @PostMapping("/event")
+    public ResponseEntity<String> publishEvent(@RequestBody Customer customer){
+        kafkaService.sendevent(customer);
+        return ResponseEntity.ok("Event  sent to Kafka topic");
     }
 }
